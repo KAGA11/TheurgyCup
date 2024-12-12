@@ -1,10 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
+import Event from "./Event"
 
 export default function Mid() {
   return (
     <div style={{ flex: 1 }}>
-          <div style={{ height: 'calc(70% - 10px)', backgroundColor: 'purple', marginBottom: '10px' }}>4</div>
+          <Event />
           <div style={{ height: 'calc(30% - 10px)', backgroundColor: 'orange' }}>5</div>
     </div>
   )

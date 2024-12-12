@@ -21,8 +21,8 @@ const Header = styled.h4`
 
 const IntegerStep = ({ name, value, onChange }) => {
     return (
-      <Row align="middle" style={{ marginBottom: '20px' }}>
-        <Col span={6}  style={{ fontSize:'18px', display: 'inline-block' }} >
+      <Row align="middle" style={{ marginBottom: '3px' }}>
+        <Col span={6}  style={{ fontSize:'16px', display: 'inline-block' }} >
           <span>{name}</span>
         </Col>
         <Col span={12}>
@@ -49,18 +49,19 @@ const IntegerStep = ({ name, value, onChange }) => {
     );
   };
 
-export default function Linshi() {
+export default function Bouns() {
   const [ values, setValues ] = useState({
-    sixStar: 0,
-    fiveStar: 0,
-    fourStar: 0,
+    dog: 0,
+    duck: 0,
+    bear: 0,
+    mouse:0,
   });
 
-  const totalScore = () => values.sixStar * 50 + values.fiveStar * 20 + values.fourStar * 10;
+  const totalScore = () => values.dog * 20 + values.duck * 20 + values.bear * 20 + values.mouse * 20
 
   return (
     <BoxStyle>
-        <Header>临时招募({ totalScore() })</Header>
+        <Header>隐藏({ totalScore() })</Header>
         <Space
             style={{
                 width: '100%',
@@ -68,21 +69,27 @@ export default function Linshi() {
             direction="vertical"
         >
             <IntegerStep 
-                name={'六星(50):'} 
-                value={values.sixStar} 
-                onChange={ value => setValues({ ...values, sixStar: value })}
+                name={'狗(20):'} 
+                value={values.dog} 
+                onChange={ value => setValues({ ...values, dog: value })}
             />
             <IntegerStep 
-                name={'五星(20):'}
-                value={values.fiveStar}
-                onChange={ value => setValues({...values, fiveStar: value })}
+                name={'鸭(20):'}
+                value={values.duck}
+                onChange={ value => setValues({...values, duck: value })}
             />
             <IntegerStep 
-                name={'四星(10):'}
-                value={values.fourStar}
-                onChange={ value => setValues({...values, fourStar: value})}
+                name={'熊(20):'}
+                value={values.bear}
+                onChange={ value => setValues({...values, bear: value })}
+            />
+            <IntegerStep 
+                name={'鼠(20):'}
+                value={values.mouse}
+                onChange={ value => setValues({...values, mouse: value})}
             />
         </Space>
     </BoxStyle>
   )
 }
+
