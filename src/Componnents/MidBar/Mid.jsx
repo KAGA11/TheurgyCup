@@ -1,10 +1,10 @@
 import Event from "./Event"
-
+import Other from "./Other"
 export default function Mid() {
   return (
     <div style={{ flex: 1 }}>
           <Event />
-          <div style={{ height: 'calc(30% - 10px)', backgroundColor: 'orange' }}>5</div>
+          <Other />
     </div>
   )
 }
