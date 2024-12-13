@@ -26,7 +26,7 @@ const EventComp = ({ name, value, onChange, disabled }) => {
     };
 
     return (
-        <div style={{ position: 'relative', marginBottom: '1.5vh' }}>
+        <div style={{ position: 'relative', marginBottom: '12px' }}>
             <span>{name} ({value})</span>
             <Checkbox
                 style={{
@@ -171,6 +171,12 @@ export default function Event() {
                 value={90}
                 onChange={handleScoreChange}
                 disabled={disabledStates['洞天福地']}
+            />
+            <EventComp
+                name={'未进入任何树洞'}
+                value={150}
+                onChange={handleScoreChange}
+                disabled={disabledStates['未进入任何树洞']}
             />
         </BoxStyle>
     );

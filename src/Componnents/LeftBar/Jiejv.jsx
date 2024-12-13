@@ -3,9 +3,9 @@ import { Image, Checkbox } from 'antd';
 import avatarFulai from '../../assets/avatar_FuLai.jpg'; 
 import avatarKuiLong from '../../assets/avatar_KuiLong.jpg'; 
 import avatarTeLei from '../../assets/avatar_TeLei.jpg'; 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { updateLeftScore } from '../../scoreSlice';
 
 const BoxStyle = styled.div`
@@ -64,7 +64,7 @@ export default function Jiejv() {
   const [ KuiLongDis, setKuiLongDis ] = useState([false,false,false,false])
 
   const dispatch = useDispatch();
-  // const score = useSelector(state => state.scores.left.Jiejv);
+  const score = useSelector(state => state.scores.left.Jiejv);
 
 
   const handleFuLaiCheckboxChange = (event) => {
@@ -170,11 +170,7 @@ export default function Jiejv() {
         const fiveStatus = isFive ? "Eat_Five" : "Eat_NotFive";
 
         const scenarioKey = `${mode}:${chaos}_${isKilled ? killed : fiveStatus}`;
-        console.log(scenarioKey);
-        console.log(situation[scenarioKey]);
-        
-        
-    
+
         // 根据情境获取分数
         if (isSucess) {
             newScore = situation[scenarioKey] || 0;   
@@ -194,21 +190,19 @@ export default function Jiejv() {
         setKuiLongScore(newScore);
         setKuiLongDis(newDis);
   };
-    
 
-  const CalculateScore = () => { 
+
+  useEffect(()=>{
+    const totalScore = FuLaiScore + TeLeiScore + KuiLongScore
     dispatch(updateLeftScore({
         category: 'Jiejv',
-        score: FuLaiScore + TeLeiScore + KuiLongScore
+        score: totalScore
     }));
-    return FuLaiScore + TeLeiScore + KuiLongScore
-  
-  }
-
-
+  },[FuLaiScore, TeLeiScore, KuiLongScore,dispatch])
+    
   return (
     <BoxStyle style={{ height: 'calc(40% - 10px)' }}>
-      <Header>结局({ CalculateScore() })</Header>
+      <Header>结局({ score })</Header>
       <div style={{ display: 'flex', justifyContent:'center', gap:'10px' }}>
         {/* 老登 */}
         <div style={{ flex: 1 }} >

@@ -21,11 +21,11 @@ const Header = styled.h4`
 
 const IntegerStep = ({ name, value, onChange }) => {
     return (
-      <Row align="middle" style={{ marginBottom: '3px' }}>
+      <Row align="middle" style={{ marginBottom: '2px' }}>
         <Col span={6}  style={{ fontSize:'16px', display: 'inline-block' }} >
           <span>{name}</span>
         </Col>
-        <Col span={12}>
+        <Col span={10}>
           <Slider
             min={0}
             max={20}

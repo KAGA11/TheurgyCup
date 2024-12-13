@@ -8,7 +8,6 @@ import store from './store';
 
 const Container = styled.div`
   display: flex;
-  height: 100vh;
   padding: 20px 50px;
   gap: 10px;
 `;

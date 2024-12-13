@@ -34,7 +34,16 @@ export default function Other() {
     dispatch(updateMidScore({ 
       category: 'other', 
       score: isNaN(totalScore) ? 0 : totalScore 
-    }));    
+    }));   
+    
+
+    if (input1 > 0) {
+      console.log(`input1 value: ${input1 * 5}`);  
+    }else if(input2 > 0){
+      console.log(`input2 value: ${input2}`);
+    }
+    
+    
   }
 
   return (

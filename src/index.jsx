@@ -29,7 +29,7 @@ const GlobalStyle = createGlobalStyle`
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ConfigProvider theme={{ 
-      // token: { colorPrimary: '#0096FE', }, 
+      // token: { colorPrimary: '#B91414', }, 
       }} >
       <GlobalStyle />
       <App />
