@@ -3,6 +3,9 @@ import Left from "./Componnents/LeftBar/Left";
 import Right from "./Componnents/RightBar/Right";
 import Mid from "./Componnents/MidBar/Mid";
 
+import { Provider } from 'react-redux';
+import store from './store';
+
 const Container = styled.div`
   display: flex;
   height: 100vh;
@@ -12,10 +15,12 @@ const Container = styled.div`
 
 export default function Profile() {
   return (
-    <Container>
-      <Left />
-      <Mid />
-      <Right />
-    </Container>
+    <Provider store={store}>
+      <Container>
+        <Left />
+        <Mid />
+        <Right />
+      </Container>
+    </Provider>
   );
 }

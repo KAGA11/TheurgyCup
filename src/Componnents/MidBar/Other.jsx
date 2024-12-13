@@ -1,6 +1,8 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { Input } from "antd";
+
+import { useSelector, useDispatch } from "react-redux";
+import { updateMidScore } from "../../scoreSlice";
 
 const BoxStyle = styled.div`
   padding: 10px 30px;
@@ -20,15 +22,19 @@ const Header = styled.h4`
 
 
 export default function Other() {
-  const [score, setScore] = useState(0);
+  const score = useSelector((state) => state.scores.mid.other );
+  const dispatch = useDispatch()
 
   const handleTotalScore = () => {
     let input1 = document.getElementById('inputCangPin').value
     let input2 = document.getElementById('inputXiuZheng').value
 
     const totalScore = parseInt(input1 * 5) + parseInt(input2)
-    setScore(isNaN(totalScore) ? 0 : totalScore)
 
+    dispatch(updateMidScore({ 
+      category: 'other', 
+      score: isNaN(totalScore) ? 0 : totalScore 
+    }));    
   }
 
   return (

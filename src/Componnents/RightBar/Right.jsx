@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import styled from 'styled-components'
+import { useSelector } from 'react-redux';
 
 const BoxStyle = styled.div`
   padding: 10px 30px;
@@ -19,12 +19,14 @@ const Header = styled.h4`
 
 
 export default function Right() {
-  const [ total, setTotal ] = useState(0)
+  const scores = useSelector(state => state.scores);
+  const totalScore = Object.values(scores.left).reduce((a,b) => a + b, 0)
+   + Object.values(scores.mid).reduce((a,b) => a + b, 0)
 
   return (
     <div style={{ flex: 1 }}>
         <BoxStyle >
-            <Header>总分({total})</Header>
+            <Header>总分({totalScore})</Header>
         </BoxStyle>
     </div>
   )

@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import { Col, InputNumber, Row, Slider, Space } from 'antd';
-import styled from'styled-components'
+import styled from'styled-components';
+import { useSelector, useDispatch } from'react-redux';
+import { updateLeftScore } from '../../scoreSlice';
 
 const BoxStyle = styled.div`
     padding:10px 30px;
@@ -9,15 +11,13 @@ const BoxStyle = styled.div`
     margin-bottom: 10px;
     border-radius: 10px;
     background-color: #fff;
-`
+`;
 
 const Header = styled.h4`
     font-size: 18px;
     text-align: center;
     margin-bottom: 10px;
-`
-
-
+`;
 
 const IntegerStep = ({ name, value, onChange }) => {
     return (
@@ -30,7 +30,7 @@ const IntegerStep = ({ name, value, onChange }) => {
             min={0}
             max={20}
             onChange={onChange}
-            value={typeof value === 'number' ? value : 0}
+            value={typeof value === 'number'? value : 0}
           />
         </Col>
         <Col span={2}>
@@ -40,7 +40,7 @@ const IntegerStep = ({ name, value, onChange }) => {
             style={{
               margin: '0 16px',
             }}
-            value={typeof value === 'number' ? value : 0}
+            value={typeof value === 'number'? value : 0}
             onChange={onChange}
             defaultValue={0}
           />
@@ -49,47 +49,62 @@ const IntegerStep = ({ name, value, onChange }) => {
     );
   };
 
-export default function Bouns() {
-  const [ values, setValues ] = useState({
-    dog: 0,
-    duck: 0,
-    bear: 0,
-    mouse:0,
-  });
+export default function Bonus() {
+    const [values, setValues] = useState({
+        dog: 0,
+        duck: 0,
+        bear: 0,
+        mouse: 0,
+    });
 
-  const totalScore = () => values.dog * 20 + values.duck * 20 + values.bear * 20 + values.mouse * 20
+    const dispatch = useDispatch();
 
-  return (
-    <BoxStyle>
-        <Header>隐藏({ totalScore() })</Header>
-        <Space
-            style={{
-                width: '100%',
-            }}
-            direction="vertical"
-        >
-            <IntegerStep 
-                name={'狗(20):'} 
-                value={values.dog} 
-                onChange={ value => setValues({ ...values, dog: value })}
-            />
-            <IntegerStep 
-                name={'鸭(20):'}
-                value={values.duck}
-                onChange={ value => setValues({...values, duck: value })}
-            />
-            <IntegerStep 
-                name={'熊(20):'}
-                value={values.bear}
-                onChange={ value => setValues({...values, bear: value })}
-            />
-            <IntegerStep 
-                name={'鼠(20):'}
-                value={values.mouse}
-                onChange={ value => setValues({...values, mouse: value})}
-            />
-        </Space>
-    </BoxStyle>
-  )
+    // 抽象出更新分数的函数
+    const updateScore = (animal, newValue) => {
+        setValues(prevValues => {
+            const updatedValues = {
+              ...prevValues,
+                [animal]: newValue
+            };
+            const total = parseInt(Object.values(updatedValues).reduce((a, b) => a + b, 0) * 20);
+            dispatch(updateLeftScore({
+                category: 'bonus',
+                score: total
+            }));
+            return updatedValues;
+        });
+    };
+
+    return (
+        <BoxStyle>
+            <Header>隐藏({ useSelector((state) => state.scores.left.bonus) })</Header>
+            <Space
+                style={{
+                    width: '100%',
+                }}
+                direction="vertical"
+            >
+                <IntegerStep
+                    name={'狗(20):'}
+                    value={values.dog}
+                    onChange={value => updateScore('dog', value)}
+                />
+                <IntegerStep
+                    name={'鸭(20):'}
+                    value={values.duck}
+                    onChange={value => updateScore('duck', value)}
+                />
+                <IntegerStep
+                    name={'熊(20):'}
+                    value={values.bear}
+                    onChange={value => updateScore('bear', value)}
+                />
+                <IntegerStep
+                    name={'鼠(20):'}
+                    value={values.mouse}
+                    onChange={value => updateScore('mouse', value)}
+                />
+            </Space>
+        </BoxStyle>
+    );
 }
-

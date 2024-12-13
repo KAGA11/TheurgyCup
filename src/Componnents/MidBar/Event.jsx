@@ -2,6 +2,9 @@ import { useState } from "react"
 import styled from "styled-components"
 import { Checkbox } from 'antd';
 
+import { useSelector, useDispatch } from "react-redux";
+import { updateMidScore } from "../../scoreSlice";
+
 const BoxStyle = styled.div`
     padding:10px 30px;
     border: 1px solid #ccc;
@@ -39,11 +42,17 @@ const EventComp = ({ name, value, onChange, disabled }) => {
 };
 
 export default function Event() {
-    const [score, setScore] = useState(0);
+    const score = useSelector(state => state.scores.mid.event);
+    const dispatch = useDispatch();
+
     const [disabledStates, setDisabledStates] = useState({});
 
     const handleScoreChange = (value, checked, name) => {
-        setScore((prevScore) => prevScore + (checked ? value : -value));
+        // setScore((prevScore) => prevScore + (checked ? value : -value));
+        dispatch(updateMidScore({
+            category: 'event',
+            score: score + (checked? value : -value)
+        }));
 
         // 更新禁用状态逻辑
 

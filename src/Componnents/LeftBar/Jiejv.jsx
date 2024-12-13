@@ -5,6 +5,9 @@ import avatarKuiLong from '../../assets/avatar_KuiLong.jpg';
 import avatarTeLei from '../../assets/avatar_TeLei.jpg'; 
 import { useState } from 'react';
 
+import { useDispatch } from 'react-redux';
+import { updateLeftScore } from '../../scoreSlice';
+
 const BoxStyle = styled.div`
   padding: 10px 30px;
   border: 1px solid #ccc;
@@ -59,6 +62,9 @@ export default function Jiejv() {
 
   const [ KuiLongScore, setKuiLongScore ] = useState(0);
   const [ KuiLongDis, setKuiLongDis ] = useState([false,false,false,false])
+
+  const dispatch = useDispatch();
+  // const score = useSelector(state => state.scores.left.Jiejv);
 
 
   const handleFuLaiCheckboxChange = (event) => {
@@ -190,7 +196,14 @@ export default function Jiejv() {
   };
     
 
-  const CalculateScore = () => FuLaiScore + TeLeiScore + KuiLongScore
+  const CalculateScore = () => { 
+    dispatch(updateLeftScore({
+        category: 'Jiejv',
+        score: FuLaiScore + TeLeiScore + KuiLongScore
+    }));
+    return FuLaiScore + TeLeiScore + KuiLongScore
+  
+  }
 
 
   return (
