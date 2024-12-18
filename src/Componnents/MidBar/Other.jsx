@@ -37,12 +37,12 @@ export default function Other() {
     }));   
     
 
-    if (input1 > 0) {
+    if (input1 >= 0) {
       console.log(`input1 value: ${input1 * 5}`);  
       dispatch(updateCollections(`隐藏: ${input1 * 5}分`));
     }
-    if(input2 > 0){
-      dispatch(updateSettlement(`结算: ${input2}分`))
+    if(input2 >= 0){
+      dispatch(updateSettlement(`结算: ${input2? input2 : 0}分`))
     }
     
   }
