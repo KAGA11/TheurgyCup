@@ -1,6 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface EventState {
+    recruitment: string;
+    end: string;
+    hidden: string;
+    event: string;
+    other: {
+        collections: string;
+        settlement: string;
+    };
+}
+
+
+const initialState: EventState = {
     recruitment:'临招:0分',
     end:'结局:0分',
     hidden:'隐藏:0分',
@@ -17,10 +29,10 @@ const eventSlice = createSlice({
     name: 'events',
     initialState,
     reducers: {
-        updateRecruitment: ( state, action)=>{
+        updateRecruitment: (state, action)=>{
             state.recruitment = action.payload
         },
-        updateEnd:( state, action) => {
+        updateEnd:(state, action) => {
             state.end = action.payload
         },
         updateHidden:(state, action) => {
@@ -38,6 +50,6 @@ const eventSlice = createSlice({
     }
 })
 
-export const { updateRecruitment, updateEnd, updateHidden, updateEvent, updateOther, updateCollections, updateSettlement } = eventSlice.actions
+export const { updateRecruitment, updateEnd, updateHidden, updateEvent, updateCollections, updateSettlement } = eventSlice.actions
 export default eventSlice.reducer
 

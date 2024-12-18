@@ -1,6 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
+interface ScoreState {
+  left: {
+    bonus: number;
+    jiejv: number;
+    linshi: number;
+  };
+  mid: {
+    event: number;
+    other: number;
+  };
+}
+
+const initialState: ScoreState = {
   left: {
     bonus: 0,
     jiejv: 0,
@@ -16,11 +28,27 @@ const scoreSlice = createSlice({
   name: 'scores',
   initialState,
   reducers: {
-    updateLeftScore(state, action) {
+    updateLeftScore(
+      state, 
+      action: {
+        payload: {
+          category: keyof ScoreState['left'];
+          score: number;
+        }
+      }
+    ) {
       const { category, score } = action.payload;
       state.left[category] = score;
     },
-    updateMidScore(state, action) {
+    updateMidScore(
+      state, 
+      action: {
+        payload: {
+          category: keyof ScoreState['mid'];
+          score: number;
+        }
+      }
+    ) {
       const { category, score } = action.payload;
       state.mid[category] = score;
     },
