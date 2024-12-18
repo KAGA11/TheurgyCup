@@ -4,6 +4,7 @@ import { Checkbox } from 'antd';
 
 import { useSelector, useDispatch } from "react-redux";
 import { updateMidScore } from "../../scoreSlice";
+import { updateEvent } from "../../eventSlice";
 
 const BoxStyle = styled.div`
     padding:10px 30px;
@@ -53,6 +54,7 @@ export default function Event() {
             category: 'event',
             score: score + (checked? value : -value)
         }));
+        dispatch(updateEvent(`紧急:${score + (checked? value : -value)}分`))
 
         // 更新禁用状态逻辑
 

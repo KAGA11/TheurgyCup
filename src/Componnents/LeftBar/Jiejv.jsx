@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 
 import { useSelector,useDispatch } from 'react-redux';
 import { updateLeftScore } from '../../scoreSlice';
+import { updateEnd } from '../../eventSlice';
 
 const BoxStyle = styled.div`
   padding: 10px 30px;
@@ -37,19 +38,19 @@ const Header = styled.h4`
 
 const situation = {
     // 有滚动先祖
-    "Ancestors:Chaos_Killed": 800,
+    "Ancestors:Chaos_Killed": 960, // 混乱160 + 击杀800
     "Ancestors:Chaos_Eat_Five": 280, //混乱160 + 储备120
-    "Ancestors:Chaos_Eat_NotFive": 160,
-    "Ancestors:NotChaos_Killed": 800,
+    "Ancestors:Chaos_Eat_NotFive": 160, //混乱160
+    "Ancestors:NotChaos_Killed": 940, //不混乱140 + 击杀800
     "Ancestors:NotChaos_Eat_Five": 260, //不混乱140 + 储备120
-    "Ancestors:NotChaos_Eat_NotFive": 140,
+    "Ancestors:NotChaos_Eat_NotFive": 140, //不混乱140
     // 无滚动先祖
-    "Base:Chaos_Killed": 700, 
+    "Base:Chaos_Killed": 830,  //混乱130 + 击杀700
     "Base:Chaos_Eat_Five": 230, //混乱130 + 储备100
-    "Base:Chaos_Eat_NotFive":130,
-    "Base:NotChaos_Killed": 700,
+    "Base:Chaos_Eat_NotFive":130, //混乱130
+    "Base:NotChaos_Killed": 800, //100 + 击杀700 
     "Base:NotChaos_Eat_Five": 200, //不混乱100 + 储备100
-    "Base:NotChaos_Eat_NotFive": 100,
+    "Base:NotChaos_Eat_NotFive": 100, //不混乱100
 }
   
 
@@ -198,6 +199,7 @@ export default function Jiejv() {
         category: 'Jiejv',
         score: totalScore
     }));
+    dispatch(updateEnd(`结局: ${totalScore}分`))
   },[FuLaiScore, TeLeiScore, KuiLongScore,dispatch])
     
   return (

@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { Input } from "antd";
-
 import { useSelector, useDispatch } from "react-redux";
 import { updateMidScore } from "../../scoreSlice";
+import { updateCollections, updateSettlement } from "../../eventSlice";
 
 const BoxStyle = styled.div`
   padding: 10px 30px;
@@ -39,10 +39,11 @@ export default function Other() {
 
     if (input1 > 0) {
       console.log(`input1 value: ${input1 * 5}`);  
-    }else if(input2 > 0){
-      console.log(`input2 value: ${input2}`);
+      dispatch(updateCollections(`隐藏: ${input1 * 5}分`));
     }
-    
+    if(input2 > 0){
+      dispatch(updateSettlement(`结算: ${input2}分`))
+    }
     
   }
 
@@ -54,8 +55,8 @@ export default function Other() {
         />
         <br />
         <br />
-        <Input id="inputXiuZheng"size="large" addonBefore={'修正分'} onChange={handleTotalScore}
-               defaultValue={0}
+        <Input id="inputXiuZheng" size="large" addonBefore={'修正分'} onChange={handleTotalScore}
+            defaultValue={0}
         />
     </BoxStyle>
   );

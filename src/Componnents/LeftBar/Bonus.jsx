@@ -3,6 +3,7 @@ import { Col, InputNumber, Row, Slider, Space } from 'antd';
 import styled from'styled-components';
 import { useSelector, useDispatch } from'react-redux';
 import { updateLeftScore } from '../../scoreSlice';
+import { updateHidden } from '../../eventSlice';
 
 const BoxStyle = styled.div`
     padding:10px 30px;
@@ -71,6 +72,7 @@ export default function Bonus() {
                 category: 'bonus',
                 score: total
             }));
+            dispatch(updateHidden(`隐藏: ${total}分`))
             return updatedValues;
         });
     };

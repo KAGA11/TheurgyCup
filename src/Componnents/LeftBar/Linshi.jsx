@@ -3,6 +3,7 @@ import { Col, InputNumber, Row, Slider, Space } from 'antd';
 import styled from'styled-components'
 import { useSelector, useDispatch } from 'react-redux';
 import { updateLeftScore } from '../../scoreSlice';
+import { updateRecruitment } from '../../eventSlice';
 
 const BoxStyle = styled.div`
     padding:10px 30px;
@@ -69,6 +70,7 @@ export default function Linshi() {
             category: 'linshi',
             score: total
         }));
+        dispatch(updateRecruitment(`临招: ${total}分`))
         return updatedValues;
     });
   };
