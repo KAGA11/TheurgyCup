@@ -14,6 +14,14 @@ const Container = styled.div`
   @media (max-width: 1124px) { 
     flex-direction: column;
   }
+
+  @media (max-width: 600px) { 
+    padding: 10px 10px;
+  }
+
+  @media (max-width: 400px) { 
+    padding: 10px 0px;
+  }
 `;
 
 export default function Profile() {
