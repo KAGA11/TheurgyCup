@@ -1,7 +1,8 @@
 import { useState } from "react"
 import styled from "styled-components"
 import { Checkbox } from 'antd';
-
+import { CheckboxChangeEvent } from "antd/es/checkbox";
+import { RootState } from "../../store";
 import { useSelector, useDispatch } from "react-redux";
 import { updateMidScore } from "../../scoreSlice";
 import { updateEvent } from "../../eventSlice";
@@ -21,8 +22,21 @@ const Header = styled.h4`
     text-align: center;
     margin-bottom: 10px;
 `
-const EventComp = ({ name, value, onChange, disabled }) => {
-    const handleChange = (e) => {
+
+interface EventCompProps {
+    name: string;
+    value: number;
+    onChange: (value: number, checked: boolean, name: string) => void;
+    disabled: boolean;
+}
+
+const EventComp: React.FC<EventCompProps> = ({ 
+    name, 
+    value, 
+    onChange, 
+    disabled 
+}) => {
+    const handleChange = (e: CheckboxChangeEvent) => {
         onChange(value, e.target.checked, name);
     };
 
@@ -43,13 +57,12 @@ const EventComp = ({ name, value, onChange, disabled }) => {
 };
 
 export default function Event() {
-    const score = useSelector(state => state.scores.mid.event);
+    const score = useSelector((state: RootState) => state.scores.mid.event);
     const dispatch = useDispatch();
 
-    const [disabledStates, setDisabledStates] = useState({});
+    const [disabledStates, setDisabledStates] = useState<{ [key: string]: boolean }>({});
 
-    const handleScoreChange = (value, checked, name) => {
-        // setScore((prevScore) => prevScore + (checked ? value : -value));
+    const handleScoreChange = (value: number, checked: boolean, name: string) => {
         dispatch(updateMidScore({
             category: 'event',
             score: score + (checked? value : -value)

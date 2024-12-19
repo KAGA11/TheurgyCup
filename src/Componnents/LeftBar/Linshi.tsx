@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Col, InputNumber, Row, Slider, Space } from 'antd';
 import styled from'styled-components'
+import { RootState } from '../../store';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateLeftScore } from '../../scoreSlice';
 import { updateRecruitment } from '../../eventSlice';
@@ -20,7 +21,13 @@ const Header = styled.h4`
     margin-bottom: 10px;
 `
 
-const IntegerStep = ({ name, value, onChange }) => {
+interface IntegerStepProps {
+    name: string;
+    value: number;
+    onChange: (value: number) => void;
+  }
+
+const IntegerStep:React.FC<IntegerStepProps> = ({ name, value, onChange }) => {
     return (
       <Row align="middle" style={{ marginBottom: '15px' }}>
         <Col span={6}  style={{ fontSize:'18px', display: 'inline-block' }} >
@@ -42,7 +49,7 @@ const IntegerStep = ({ name, value, onChange }) => {
               margin: '0 16px',
             }}
             value={typeof value === 'number' ? value : 0}
-            onChange={onChange}
+            onChange={(val) => onChange(val || 0)}
             defaultValue={0}
           />
         </Col>
@@ -56,10 +63,10 @@ export default function Linshi() {
     fiveStar: 0,
     fourStar: 0,
   });
-  const score = useSelector(state => state.scores.left.linshi);
+  const score = useSelector((state:RootState) => state.scores.left.linshi);
   const dispatch = useDispatch();
 
-  const updateScore = (Star, newValue) => {
+  const updateScore = (Star:string, newValue:number) => {
     setValues(prevValues => {
         const updatedValues = {
           ...prevValues,

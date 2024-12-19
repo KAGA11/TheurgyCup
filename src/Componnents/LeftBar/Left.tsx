@@ -1,6 +1,6 @@
-import Linshi from './Linshi';
-import Jiejv from './Jiejv';
-import Bonus from './Bonus'
+import Linshi from './Linshi.tsx';
+import Jiejv from './Jiejv.tsx';
+import Bonus from './Bonus.tsx'
 
 
 export default function Left() {

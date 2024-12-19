@@ -9,7 +9,13 @@
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
       "allowJs": true,
+      "noEmit": true,
+      "allowImportingTsExtensions": true,
       "outDir": "dist",
+      "baseUrl": "./",
+      "paths": {
+        "*": ["src/types/*"]
+      }
     },
     "include": ["src"]
 }

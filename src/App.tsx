@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import Left from "./Componnents/LeftBar/Left";
-import Right from "./Componnents/RightBar/Right";
-import Mid from "./Componnents/MidBar/Mid";
+import Left from "./Componnents/LeftBar/Left.tsx";
+import Right from "./Componnents/RightBar/Right.tsx";
+import Mid from "./Componnents/MidBar/Mid.tsx";
 
 import { Provider } from 'react-redux';
 import store from './store';

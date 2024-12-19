@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Col, InputNumber, Row, Slider, Space } from 'antd';
 import styled from'styled-components';
+import { RootState } from '../../store';
 import { useSelector, useDispatch } from'react-redux';
 import { updateLeftScore } from '../../scoreSlice';
 import { updateHidden } from '../../eventSlice';
@@ -20,7 +21,13 @@ const Header = styled.h4`
     margin-bottom: 10px;
 `;
 
-const IntegerStep = ({ name, value, onChange }) => {
+interface IntegerStepProps {
+    name: string;
+    value: number;
+    onChange: (value: number ) => void;
+}
+
+const IntegerStep:React.FC<IntegerStepProps> = ({ name, value, onChange }) => {
     return (
       <Row align="middle" style={{ marginBottom: '2px' }}>
         <Col span={6}  style={{ fontSize:'16px', display: 'inline-block' }} >
@@ -42,7 +49,7 @@ const IntegerStep = ({ name, value, onChange }) => {
               margin: '0 16px',
             }}
             value={typeof value === 'number'? value : 0}
-            onChange={onChange}
+            onChange={(val) => onChange(val || 0)}
             defaultValue={0}
           />
         </Col>
@@ -51,7 +58,8 @@ const IntegerStep = ({ name, value, onChange }) => {
   };
 
 export default function Bonus() {
-    const [values, setValues] = useState({
+    const bonus = useSelector((state:RootState) => state.scores.left.bonus);
+    const [values, setValues] = useState<Record<string,number>> ({
         dog: 0,
         duck: 0,
         bear: 0,
@@ -61,13 +69,13 @@ export default function Bonus() {
     const dispatch = useDispatch();
 
     // 抽象出更新分数的函数
-    const updateScore = (animal, newValue) => {
+    const updateScore = (animal:string, newValue:number) => {
         setValues(prevValues => {
             const updatedValues = {
               ...prevValues,
                 [animal]: newValue
             };
-            const total = parseInt(Object.values(updatedValues).reduce((a, b) => a + b, 0) * 20);
+            const total = Object.values(updatedValues).reduce((a, b) => a + b, 0) * 20;
             dispatch(updateLeftScore({
                 category: 'bonus',
                 score: total
@@ -79,7 +87,7 @@ export default function Bonus() {
 
     return (
         <BoxStyle>
-            <Header>隐藏({ useSelector((state) => state.scores.left.bonus) })</Header>
+            <Header>隐藏({ bonus })</Header>
             <Space
                 style={{
                     width: '100%',
@@ -89,22 +97,22 @@ export default function Bonus() {
                 <IntegerStep
                     name={'狗(20):'}
                     value={values.dog}
-                    onChange={value => updateScore('dog', value)}
+                    onChange={(value:number) => updateScore('dog', value)}
                 />
                 <IntegerStep
                     name={'鸭(20):'}
                     value={values.duck}
-                    onChange={value => updateScore('duck', value)}
+                    onChange={(value:number) => updateScore('duck', value)}
                 />
                 <IntegerStep
                     name={'熊(20):'}
                     value={values.bear}
-                    onChange={value => updateScore('bear', value)}
+                    onChange={(value:number) => updateScore('bear', value)}
                 />
                 <IntegerStep
                     name={'鼠(20):'}
                     value={values.mouse}
-                    onChange={value => updateScore('mouse', value)}
+                    onChange={(value:number) => updateScore('mouse', value)}
                 />
             </Space>
         </BoxStyle>

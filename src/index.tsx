@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
+import App from './App.tsx';
 import { ConfigProvider } from 'antd';
 import { createGlobalStyle } from 'styled-components';
 
@@ -26,7 +26,9 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-createRoot(document.getElementById('root')).render(
+const rootElement = document.getElementById('root') as HTMLElement
+
+createRoot(rootElement).render(
   <StrictMode>
     <ConfigProvider theme={{ 
       // token: { colorPrimary: '#B91414', }, 

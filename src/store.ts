@@ -9,4 +9,6 @@ const store = configureStore({
   },
 });
 
+// 导出 RootState 类型，用于定义 Redux 状态的类型
+export type RootState = ReturnType<typeof store.getState>;
 export default store;

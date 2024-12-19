@@ -1,5 +1,6 @@
 import styled from'styled-components';
 import { useSelector } from'react-redux';
+import { RootState } from '../../store';
 
 const BoxStyle = styled.div`
   padding: 10px 30px;
@@ -25,26 +26,29 @@ const EventItem = styled.p`
 
 
 // 扁平化处理对象的函数
-const flattenObject = (obj, result = {}, prefix = '') => {
-    Object.entries(obj).forEach(([key, value]) => {
-        const newPrefix = prefix? `${prefix}.${key}` : key;
-        if (typeof value === 'object' && value!== null) {
-            flattenObject(value, result, newPrefix);
-        } else {
-            result[newPrefix] = value;
-        }
-    });
-    return result;
+const flattenObject = (
+        // Record 代表对象类型，string 代表键的类型，string 代表值的类型 
+        obj: Record<string, any>, 
+        result: Record<string, any> = {}
+    ) => {
+        Object.entries(obj).forEach(([key, value]) => {
+            if (typeof value === 'object' && value!== null) {
+                flattenObject(value, result);
+            } else {
+                result[key] = value;
+            }
+        });
+        return result;
 };
 
 export default function Right() {
-    const scores = useSelector(state => state.scores);
+    const scores = useSelector((state: RootState) => state.scores);
     const totalScore = scores? Object.values(scores.left).reduce((a, b) => a + b, 0) +
         Object.values(scores.mid).reduce((a, b) => a + b, 0) : 0;
 
-    const events = useSelector(state => state.events);
+    const events = useSelector((state: RootState) => state.events);
     const flattenedEvents = flattenObject(events);
-
+    
     return (
         <div style={{ flex: 1 }}>
             <BoxStyle>

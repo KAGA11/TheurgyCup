@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { Image, Checkbox } from 'antd';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import avatarFulai from '../../assets/avatar_FuLai.jpg'; 
 import avatarKuiLong from '../../assets/avatar_KuiLong.jpg'; 
 import avatarTeLei from '../../assets/avatar_TeLei.jpg'; 
 import { useEffect, useState } from 'react';
-
+import { RootState } from '../../store';
 import { useSelector,useDispatch } from 'react-redux';
 import { updateLeftScore } from '../../scoreSlice';
 import { updateEnd } from '../../eventSlice';
@@ -36,7 +37,7 @@ const Header = styled.h4`
 // 如果选中「滚动先祖」checkbox并通关<授法>获得140分，思维混乱时通关获得160分:击杀奎隆时获得800分，
 // 若将五名干员运送至3阶段奎隆时获得120储备分，击杀奎隆失败则获得此积分，击杀奎隆成功则储备分失效。
 
-const situation = {
+const situation: Record<string,number> = {
     // 有滚动先祖
     "Ancestors:Chaos_Killed": 960, // 混乱160 + 击杀800
     "Ancestors:Chaos_Eat_Five": 280, //混乱160 + 储备120
@@ -65,40 +66,43 @@ export default function Jiejv() {
   const [ KuiLongDis, setKuiLongDis ] = useState([false,false,false,false])
 
   const dispatch = useDispatch();
-  const score = useSelector(state => state.scores.left.Jiejv);
+  const score = useSelector((state:RootState) => state.scores.left.jiejv);
 
+  const getCheckboxChecked = (checkboxName: string): boolean => {
+    const element = document.getElementsByName(checkboxName)[0] as HTMLInputElement | undefined;
+    return element?.checked || false;
+  };
 
-  const handleFuLaiCheckboxChange = (event) => {
+  const handleFuLaiCheckboxChange = (event: CheckboxChangeEvent) => {
     const { name, checked } = event.target;
     let newScore = FuLaiScore;
-    let newDis = FuLaiDis;
+    const newDis = [...FuLaiDis]; 
 
     switch (name) {
         case '混乱1':
-          if (document.getElementsByName('思维矫正')[0]?.checked) {
+          if (getCheckboxChecked('思维矫正')) {
             newScore = checked ? 180 : 170;
           }
-          if (document.getElementsByName('紧急授课')[0]?.checked) {
+          if (getCheckboxChecked('紧急授课')) {
             newScore = checked ? 50 : 40;
           }
           break;
 
-        case '紧急授课':
-          newScore = checked ? 40 : 0;
-          if (document.getElementsByName('混乱1')[0]?.checked) {
-            newScore = checked ? 50 : 0;
-          }
-          checked ? newDis[2] = true : newDis[2] = false
-          break;
-
-        case '思维矫正':
-          newScore = checked ? 170 : 0;
-          if (document.getElementsByName('混乱1')[0]?.checked) {
-            newScore = checked ? 180 : 0;
-          }
-          checked ? newDis[1] = true : newDis[1] = false
-          break;
-    
+          case '紧急授课':
+            newScore = checked ? 40 : 0;
+            if (getCheckboxChecked('混乱1')) {
+              newScore = checked ? 50 : 0;
+            }
+            newDis[2] = checked;
+            break;
+      
+          case '思维矫正':
+            newScore = checked ? 170 : 0;
+            if (getCheckboxChecked('混乱1')) {
+              newScore = checked ? 180 : 0;
+            }
+            newDis[1] = checked;
+            break;
         default:
           break;
     }
@@ -107,25 +111,25 @@ export default function Jiejv() {
     setFuLaiDis(newDis)
   };
 
-  const handleTeLeiCheckboxChange = (event) => {
+  const handleTeLeiCheckboxChange = (event:CheckboxChangeEvent) => {
     const { name, checked } = event.target;
     let newScore = TeLeiScore;
-    let newDis = TeLeiDis;
+    const newDis = [...TeLeiDis];
 
     switch (name) {
         case '混乱2':
-          if (document.getElementsByName('朝谒')[0]?.checked) {
+          if (getCheckboxChecked('朝谒')) {
                 newScore = checked ? 110 : 100;
           }
 
-          if (document.getElementsByName('魂灵朝谒')[0]?.checked) {
+          if (getCheckboxChecked('魂灵朝谒')) {
             newScore = checked ? 220 : 200;
           }
           break;
 
         case '朝谒':
           newScore = checked ? 100 : 0;
-          if (document.getElementsByName('混乱2')[0]?.checked) {
+          if (getCheckboxChecked('混乱2')) {
             newScore = checked ? 110 : 0;
           }
           checked ? newDis[2] = true : newDis[2] = false
@@ -133,7 +137,7 @@ export default function Jiejv() {
 
         case '魂灵朝谒':
           newScore = checked ? 200 : 0;
-          if (document.getElementsByName('混乱2')[0]?.checked) {
+          if (getCheckboxChecked('混乱2')) {
             newScore = checked ? 220 : 0;
           }
           checked ? newDis[1] = true : newDis[1] = false
@@ -147,7 +151,7 @@ export default function Jiejv() {
     setTeLeiDis(newDis)
   };
 
-  const handleKuiLongCheckboxChange = (event) => {
+  const handleKuiLongCheckboxChange = (event:CheckboxChangeEvent) => {
         const { name, checked } = event.target;
     
         // 状态变量
@@ -155,19 +159,19 @@ export default function Jiejv() {
         const newDis = [...KuiLongDis];
 
         // 授法控制是否过关
-        const isSucess = document.getElementsByName('授法')[0]?.checked
+        const isSucess = getCheckboxChecked('授法')
 
         // Ancestors:Chaos_Killed
-        const isAncestor = document.getElementsByName('滚动先祖')[0]?.checked;
+        const isAncestor = getCheckboxChecked('滚动先祖');
         const mode = isAncestor ? "Ancestors" : "Base";
 
-        const isChaos = document.getElementsByName('混乱3')[0]?.checked;
+        const isChaos = getCheckboxChecked('混乱3');
         const chaos = isChaos? "Chaos" : "NotChaos";
 
-        const isKilled = document.getElementsByName('击杀奎隆')[0]?.checked;
+        const isKilled = getCheckboxChecked('击杀奎隆');
         const killed = isKilled ? "Killed" : "NotKilled";
 
-        const isFive = document.getElementsByName('运送五名干员')[0]?.checked;
+        const isFive = getCheckboxChecked('运送五名干员');
         const fiveStatus = isFive ? "Eat_Five" : "Eat_NotFive";
 
         const scenarioKey = `${mode}:${chaos}_${isKilled ? killed : fiveStatus}`;
@@ -196,7 +200,7 @@ export default function Jiejv() {
   useEffect(()=>{
     const totalScore = FuLaiScore + TeLeiScore + KuiLongScore
     dispatch(updateLeftScore({
-        category: 'Jiejv',
+        category: 'jiejv',
         score: totalScore
     }));
     dispatch(updateEnd(`结局: ${totalScore}分`))
