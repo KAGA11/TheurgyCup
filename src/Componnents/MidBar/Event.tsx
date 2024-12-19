@@ -110,12 +110,6 @@ export default function Event() {
         <BoxStyle>
             <Header>事件({score})</Header>
             <EventComp
-                name={'无主的回忆'}
-                value={13}
-                onChange={handleScoreChange}
-                disabled={disabledStates['无主的回忆']}
-            />
-            <EventComp
                 name={'离歌的庭院'}
                 value={40}
                 onChange={handleScoreChange}
