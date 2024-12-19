@@ -20,7 +20,7 @@ const Container = styled.div`
   }
 
   @media (max-width: 400px) { 
-    padding: 10px 0px;
+    padding: 10px 3px;
   }
 `;
 
