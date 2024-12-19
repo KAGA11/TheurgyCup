@@ -10,6 +10,10 @@ const Container = styled.div`
   display: flex;
   padding: 20px 50px;
   gap: 10px;
+
+  @media (max-width: 1124px) { 
+    flex-direction: column;
+  }
 `;
 
 export default function Profile() {

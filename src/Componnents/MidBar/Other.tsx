@@ -45,7 +45,7 @@ export default function Other() {
     }
 
     if (xiuZhengValue >= 0) {
-      dispatch(updateSettlement(`修正分: ${xiuZhengValue}分`));
+      dispatch(updateSettlement(`结算分: ${xiuZhengValue}分`));
     }
   },[inputCangPin,inputXiuZheng,dispatch])
 
@@ -67,8 +67,8 @@ export default function Other() {
       <Input
         id="inputXiuZheng"
         size="large"
-        addonBefore={'修正分'}
-        placeholder="修正分数"
+        addonBefore={'结算分'}
+        placeholder="游戏结算分"
         value={inputXiuZheng}
         onChange={(e) => {
           setInputXiuZheng(e.target.value);
