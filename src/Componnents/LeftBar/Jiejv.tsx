@@ -213,6 +213,7 @@ export default function Jiejv() {
         {/* 老登 */}
         <div style={{ flex: 1 }} >
             <Image preview={false} src={avatarFulai} width={100} /> 
+            <br />
             <Checkbox 
                 style={{ margin:'15px 0 5px 0' }}
                 name="混乱1"
@@ -243,6 +244,7 @@ export default function Jiejv() {
         {/* 大特 */}
         <div style={{ flex: 1 }} >
             <Image preview={false} src={avatarTeLei} />
+            <br />
             <Checkbox 
                 style={{ margin:'15px 0 5px 0' }}
                 name="混乱2"
@@ -273,6 +275,7 @@ export default function Jiejv() {
         {/* 奎隆 */}
         <div style={{ flex: 1 }} >
             <Image preview={false} src={avatarKuiLong} />
+            <br />
             <Checkbox 
                 name="混乱3"
                 onChange={handleKuiLongCheckboxChange}
