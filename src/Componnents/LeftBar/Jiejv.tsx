@@ -152,14 +152,30 @@ export default function Jiejv() {
   };
 
   const handleKuiLongCheckboxChange = (event:CheckboxChangeEvent) => {
-        const { name, checked } = event.target;
-    
         // 状态变量
+        const { name, checked } = event.target;
         let newScore = 0;
         const newDis = [...KuiLongDis];
 
         // 授法控制是否过关
-        const isSucess = getCheckboxChecked('授法')
+        let isSuccess = getCheckboxChecked('授法')
+
+        // 更新禁用状态
+        if (name === '击杀奎隆') {
+            checked ? newDis[3] = true : newDis[3] = false
+            if (checked && !isSuccess) {
+              newDis[1] = true
+              isSuccess = true
+            }
+        }
+
+        if (name === '授法') {
+          checked ? newDis[1] = true : newDis[1] = false
+        }
+    
+        if (name === '运送五名干员') {
+            checked ? newDis[2] = true : newDis[2] = false
+        }
 
         // Ancestors:Chaos_Killed
         const isAncestor = getCheckboxChecked('滚动先祖');
@@ -176,20 +192,14 @@ export default function Jiejv() {
 
         const scenarioKey = `${mode}:${chaos}_${isKilled ? killed : fiveStatus}`;
 
+        console.log(scenarioKey);
+        console.log(situation[scenarioKey] );
+        
         // 根据情境获取分数
-        if (isSucess) {
+        if (isSuccess) {
             newScore = situation[scenarioKey] || 0;   
         }else{
             newScore = 0
-        }
-    
-        // 更新禁用状态
-        if (name === '击杀奎隆') {
-            checked ? newDis[3] = true : newDis[3] = false
-        }
-    
-        if (name === '运送五名干员') {
-            checked ? newDis[2] = true : newDis[2] = false
         }
     
         setKuiLongScore(newScore);
@@ -288,6 +298,7 @@ export default function Jiejv() {
                 style={{ margin:'5px 0 5px 0' }}
                 name="授法" 
                 onChange={handleKuiLongCheckboxChange}
+                checked={KuiLongDis[1]}
             >
                 授法
             </Checkbox>
@@ -300,6 +311,7 @@ export default function Jiejv() {
             >
                 击杀奎隆
             </Checkbox>
+            <br />
             <Checkbox 
                 style={{ margin:'5px 0 5px 0' }}
                 name="运送五名干员"
